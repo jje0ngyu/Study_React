@@ -1,0 +1,54 @@
+# props
+
+# 이벤트
+ - onClick
+	- 리로드 방지 : event.preventDefault();
+ - onChangeMode
+
+# state
+ 1) const mode = userState('WELCOME');
+ - useState를 사용하기 위해서는 아래 코드를 임포트 해준다.
+	import {useState} from 'react';
+   리액트에서 제공하는 훅?...
+
+ 2) const [id, setId] = useState(null) ;
+ - id와 setId는 임의로 작명할 수 있다.
+ - id는 useState의 값이다.
+ - setId를 작성하는 이유 : 변경된 변수값을 바로 적용해준다. (* 페이지를 자동으로 리로드해주는 것 같다)
+
+
+# create
+ onCreate{} : <form>의 submit 정보를 받아옴다.
+ - function Create (props){
+     props.onCreate(title, body);	// title, body는 파라미터값
+   }
+ onSubmit : <form>에서 발생
+	- <form> 안에서 event.target은 <form>
+ - <form> 데이터는 event.target.title.value; 로 호출 (* value 뒤에 () 없음)
+
+ - 원시밸류?..... 흠...
+
+
+
+=====================
+
+Create React App 사용
+> html로 리액트를 코드 짜려면 힘들기 때문에
+> 사용하기 위해선 Node.js가 필요
+
+파일정보
+> node_modules : 라이브러리 보관함
+> public :  static파일
+> src : 코드 작성
+
+# JSX
+> js파일 안에서 html처럼 코드를 작성할 수 있게 해줌
+> 문법1 : class 넣을 땐 className 사용
+	* js 안에서 class는 따로 사용법이 있으므로 ~
+> 문법2 : 변수 넣을 땐 {중괄호} 사용    =>  이를 '데이터바인딩'이라함
+> 문법3 : style 넣을 땐 style={ { 스타일명 : '값', 스타일명 : '값' } }   => 중괄호 안에 오브젝트형식으로 작성
+
+# useState
+1. import {useState}
+2. useState(보관할 자료)
+3. let [작명, 작명]
