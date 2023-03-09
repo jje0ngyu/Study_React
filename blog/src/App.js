@@ -19,6 +19,10 @@ function App() {
   // 모달창
   let [modal, setModal] = useState(false);
 
+  // input값
+  let [title, setTitle] = useState(0);
+  let [입력값, 입력값변경] = useState('');
+
   /* (참고) Destructuring 문법
   let num = [1, 2]; 
   let a = num[0]; > a = 1
@@ -94,6 +98,17 @@ function App() {
     })
   */
 
+
+  /* <input>
+  1. 뭔가 입력 시 코드를 실행하고 싶으면 onChange / onInput 을 사용한다.
+  2. 입력한 값을 가져오려면 아래와 같이 코드를 작성한다.
+    - <input onChange={(e)=> { console.log(e.target) }}/>
+    - e 는 지금 발생하는 이벤트에 관련한 여러 기능이 담겨있다. (*일종의 변수)
+    - e.target => 이벤트가 발생한 html태그를 의미
+    - e.target.value => 이벤트가 발생한 html태그에 입력한 값
+    - <input>에 입력한 값을 저장하기 위해 변수/state에 저장하는 것이 일반적이다.
+    - state 변경함수는 늦게 처리된다.    why? 비동기처리 !
+  */
   return (
     <div className="App">
       <div className="black-nav">
@@ -120,18 +135,30 @@ function App() {
             <div className="list" key={i}>
               <h4 onClick={()=>{ setModal(!modal) }}>
                 { 글제목[i] }
-                <span onClick={()=>{
+                <span onClick={(e)=>{
+                  e.stopPropagation(); // 상위html로 퍼지는 *이벤트버블링을 막는 코드
                   let copy = [...따봉];
                   copy[i] = copy[i] + 1;
                   따봉변경(copy)
                 }}>👍</span> {따봉[i]}
               </h4>
               <p>2월 17일 발행</p>
-             
+              <button onClick={()=>{
+                let copy = [...글제목];
+                copy.splice(i, 1);
+                글제목변경(copy);
+              }}>삭제</button>
             </div>
           )
         })
       }
+
+      <input onChange={(e)=> { 입력값변경(e.target.value); }}/>
+      <button onClick={()=>{
+        let copy = [...글제목];
+        copy.unshift(입력값);
+        글제목변경(copy);
+      }}>글발행</button>
       {
         modal == true? <Modal/> : null
       }
