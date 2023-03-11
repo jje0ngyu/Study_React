@@ -134,7 +134,7 @@ function App() {
         글제목.map(function(a, i){
           return (
             <div className="list" key={i}>
-              <h4 onClick={()=>{ setModal(!modal) }}>
+              <h4 onClick={()=>{ setModal(!modal); setTitle(i); }}>
                 { 글제목[i] }
                 <span onClick={(e)=>{
                   e.stopPropagation(); // 상위html로 퍼지는 *이벤트버블링을 막는 코드
@@ -161,22 +161,31 @@ function App() {
         글제목변경(copy);
       }}>글발행</button>
       {
-        modal == true? <Modal 글제목변경={글제목변경} 글제목={글제목} /> : null
+        modal == true? <Modal 글제목변경={글제목변경} 글제목={글제목} title={title} /> : null
       }
     </div>  
   );
 }
 
 function Modal(props){
+
   return (
-    <div className="modal">
-      <h4>{props.글제목[0]}</h4>
+    <div className="modal" key={props.title}>
+      <h4>{props.글제목[props.title]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
-      <button onClick={()=>{  props.글제목변경(['여자 코드 추천', '강남 우동 맛집', '파이썬독학']) }}>글수정</button>
+      {
+        props.title == 0?  <button onClick={()=>{
+          let copy = [...props.글제목];
+          copy[0] = '여자 코트 추천';
+          props.글제목변경(copy);
+        }}>글수정</button> : null
+      }
     </div>
   )
-} 
+}
+
+
 
 /* 컴포넌트 !!! 
   1.컴포넌트를 사용하면, 처음 보는 사람도 미래의 나도 이해하기 쉬워진다.
