@@ -8,8 +8,6 @@ import { useState } from 'react';
 
 function App() {
 
-  // 자료를 잠깐 저장할 땐?
-  // 1. 변수 (let/var/const) 2. state
   let post = '강남 우동 맛집'; // 실제 서버에서 가져온 데이터라 가정!
   let [글제목, 글제목변경] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬독학']);
 
@@ -121,19 +119,22 @@ function App() {
         copy.sort();
         글제목변경(copy);
       }}>가나다순 정렬</button>
-
       <button onClick={()=>{
-        let copy = [...글제목];
-        copy[0] = '여자 코트 추천';
-        글제목변경(copy);
-      } }>클릭</button>
+          let copy = [...글제목];
+          copy[0] = '여자 코트 추천';
+          글제목변경(copy);
+      }}>
+
+      클릭</button>
+
+     
       </div>
          
       {
         글제목.map(function(a, i){
           return (
             <div className="list" key={i}>
-              <h4 onClick={()=>{ setModal(!modal) }}>
+              <h4 onClick={()=>{ setModal(!modal); setTitle(i); }}>
                 { 글제목[i] }
                 <span onClick={(e)=>{
                   e.stopPropagation(); // 상위html로 퍼지는 *이벤트버블링을 막는 코드
@@ -160,11 +161,32 @@ function App() {
         글제목변경(copy);
       }}>글발행</button>
       {
-        modal == true? <Modal/> : null
+        modal == true? <Modal 글제목변경={글제목변경} 글제목={글제목} title={title} /> : null
       }
     </div>  
   );
 }
+
+function Modal(props){
+
+  return (
+    <div className="modal" key={props.title}>
+      <h4>{props.글제목[props.title]}</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
+      {
+        props.title == 0?  <button onClick={()=>{
+          let copy = [...props.글제목];
+          copy[0] = '여자 코트 추천';
+          props.글제목변경(copy);
+        }}>글수정</button> : null
+      }
+    </div>
+  )
+}
+
+
+
 /* 컴포넌트 !!! 
   1.컴포넌트를 사용하면, 처음 보는 사람도 미래의 나도 이해하기 쉬워진다.
   2.어떤 걸 컴포넌트로 만들면 좋은가?
@@ -197,14 +219,12 @@ const 변수로 만들기도 하는데, 이유는 실수로 동일한 함수명�
     - 삼항연산자(ternary operator)를 사용하면 된다. =>  { 조건식 ? 참일 때 실행할 코드 : 거짓일 때 실행할 코드 }
     - 비어있는 html용으로 null을 자주 사용한다.
 */
-function Modal(){
-  return (
-    <div className="modal">
-      <h4>제목</h4>
-      <p>날짜</p>
-      <p>상세내용</p>
-    </div>
-  )
-}
+
+/* props
+  1. 부모 → 자식 state 전송하는 방법
+    1) <자식컴포넌트 작명={state이름}>
+    2) props 파라미터 등록후 props.작명 사용
+  2. props 전송은 [부모 → 자식]만 가능하다
+*/
 
 export default App;
