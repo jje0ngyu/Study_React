@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
-import Detail from './Detail.js';
+import Detail from './routes/Detail.js';
 
 function App() {
   let [shoes] = useState(data);
+  let navigate = useNavigate();
 
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link href="/">홈</Nav.Link>
             <Nav.Link href="/detail">상세</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/detail')}}>상세</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -38,9 +40,13 @@ function App() {
             </div> 
           </>
         } />
-        <Route path="/detail" element={
-          <Detail />
-        } />
+        <Route path="/detail" element={<Detail/>} />
+        <Route path="/about" element={<About/>}>
+          <Route path="member" element={<div>멤버임!</div>} />
+          <Route path="location" element={<About/>} />
+        </Route>
+
+        <Route path="*" element={<div>없는 페이지!!</div>} />
       </Routes>
 
     </div>
@@ -57,6 +63,15 @@ function Shoe(props){
       <p>{shoes.content}</p>       
     </div>
   );
+}
+
+function About(){
+  return (
+    <div>
+      <h4>회사정보</h4>
+      <Outlet></Outlet>
+    </div>
+  )
 }
 
 export default App;

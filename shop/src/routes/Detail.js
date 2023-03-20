@@ -1,6 +1,5 @@
 function Detail(){
   return(
-    <>
     <div className="container">
       <div className="row">
         <div className="col-md-6">
@@ -14,7 +13,6 @@ function Detail(){
         </div>
       </div>
     </div> 
-    </>
   )
 }
 
