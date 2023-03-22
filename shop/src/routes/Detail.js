@@ -47,11 +47,13 @@ function Detail(props){
     // mount, update 시 코드 실행해줌
     console.log('안녕');
   })
-
-  const [style, setStyle] = useState({display: 'block'})
-  setTimeout(()=>{ setStyle({display:'none'}) }, 3000)
-
+  
   let [count, setCount] = useState(0);
+  let [alert, setAlert] = useState(true);
+  useEffect(()=>{
+    setTimeout(()=>{ setAlert(false) }, 2000)
+    console.log('1');
+  }, [count])
 
   let {id} = useParams();
   //let id = props.shoes[param].id;
@@ -70,7 +72,12 @@ function Detail(props){
   `
   return(
     <div className="container">
-      <div className="aler alert-warning" style={style}>2초 이내 구매 시 할인</div>
+      {
+        alert == true
+        ? <div className="aler alert-warning">2초 이내 구매 시 할인</div>
+        : null
+      }
+      {count}
       <button onClick={()=>{ setCount(count+1) }}>버튼</button>
       <div className="row">
         <div className="col-md-6">
