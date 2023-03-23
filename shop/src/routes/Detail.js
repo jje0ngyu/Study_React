@@ -50,9 +50,15 @@ function Detail(props){
   
   let [count, setCount] = useState(0);
   let [alert, setAlert] = useState(true);
+  
+
+  // useEffect 동작 전에 실행되는 return()=>{}
+  // clean up function은 mount시 실행안 됨 unmount시 실행된다.
   useEffect(()=>{
-    setTimeout(()=>{ setAlert(false) }, 2000)
-    console.log('1');
+    let a = setTimeout(()=>{ setAlert(false) }, 2000)
+    return ()=>{
+      clearTimeout(a)
+    }
   }, [count])
 
   let {id} = useParams();
