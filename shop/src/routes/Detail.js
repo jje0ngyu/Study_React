@@ -73,13 +73,26 @@ function Detail(props) {
   const regNum = /^[\D]/g;
   const [num, setNum] = useState();
   useEffect(() => {
+    if (isNaN(num) == true){
+      alert('그러지마세요')
+    }
     if (num == "") {
       console.log("빈칸!");
     }
     if (regNum.test(num)) {
       console.log("숫자만 입력해!");
     }
-    return console.log(regNum.test(num));
+    return (
+      <div>
+
+      console.log(regNum.test(num));
+      <input
+        onChange={(e) => {
+          setNum(e.target.value);
+        }}
+      ></input>
+      </div>
+    )
   }, [num]);
 
   let { id } = useParams();
@@ -126,11 +139,6 @@ function Detail(props) {
             <YellowBtn bg="blue">버튼</YellowBtn>
           </Box>
           <input type="number"></input>
-          <input
-            onChange={(e) => {
-              setNum(e.target.value);
-            }}
-          ></input>
         </div>
       </div>
     </div>
