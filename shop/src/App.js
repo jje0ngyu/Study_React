@@ -4,9 +4,10 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
 import Detail from './routes/Detail.js';
+import axios from 'axios';
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
@@ -31,13 +32,25 @@ function App() {
               <div className="row">
                 {
                   data.map((a,i)=>{
-                    return(
-                      <Shoe i={i} shoes={shoes[i]} />
-                    )
+                    return <Shoe i={i} shoes={shoes[i]} key={i}/>
                   })
                 }
               </div>
-            </div> 
+            </div>
+            <button onClick={()=>{
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((결과)=>{
+                console.log(결과.data);
+                console.log(shoes);
+                let copy = [...shoes, ...결과.data];
+                setShoes(copy);
+              })
+              .catch(()=>{
+                console.log('실패함');
+              })
+            
+
+            }}>버튼</button>
           </>
         } />
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
